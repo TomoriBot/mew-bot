@@ -23,7 +23,7 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 BOT_PREFIX = ('!m ', '!mew ', '!Mew ', '!MEW ', '!M ')
 
 description='''Mew - I do stuff!'''
-bot = commands.Bot(command_prefix = BOT_PREFIX, description=description)
+bot = commands.Bot(command_prefix=BOT_PREFIX, description=description)
 
 
 try:
@@ -114,27 +114,24 @@ async def on_message(message):
         server_id = str(message.guild.id)
         if server_id not in moods:
             moods[server_id] = 'formal'
+            
         if '/r/' in message.content:
             subreddit = re.search(r'\/r\/((.*?)[^\s]+|[^\/]+)', message.content)
             print(subreddit.group(0))
             if len(subreddit.group(1)) > 20:
                 msg = comut.get_message_line('dismissive', moods[server_id])
                 await channel.send(msg)
-                await bot.process_commands(message)
             elif subreddit:
                 msg = 'https://www.reddit.com{}'.format(subreddit.group(0))
                 await channel.send(msg)
-                await bot.process_commands(message)
         elif 'bad bot' in message.content.lower():
             msg = comut.get_message_line('sad', moods[server_id])
             await channel.send(msg)
-            await bot.process_commands(message)
         elif 'good bot' in message.content.lower():
             msg = comut.get_message_line('happy', moods[server_id])
             await channel.send(msg)
-            await bot.process_commands(message)
-        else:
-            await bot.process_commands(message)
+        
+        await bot.process_commands(message)
 
 
 
